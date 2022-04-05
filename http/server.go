@@ -1,7 +1,7 @@
 package http
 
 import (
-	"cache/cache"
+	"Distributed-cache/cache"
 	"net/http"
 )
 
@@ -15,6 +15,6 @@ func (s *Server) Listen() {
 	http.ListenAndServe(":12345", nil)
 }
 
-func New(c cache.Cache) *Server {
-	return &Server{c}
+func New(cache cache.Cache) *Server {
+	return &Server{cache}
 }

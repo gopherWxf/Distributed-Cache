@@ -19,34 +19,34 @@ func (h *cacheHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	m := r.Method
 	if m == http.MethodPut {
-		b, _ := ioutil.ReadAll(r.Body)
-		if len(b) != 0 {
-			e := h.Set(key, b)
-			if e != nil {
-				log.Println(e)
+		bytes, _ := ioutil.ReadAll(r.Body)
+		if len(bytes) != 0 {
+			err := h.Set(key, bytes)
+			if err != nil {
+				log.Println(err)
 				w.WriteHeader(http.StatusInternalServerError)
 			}
 		}
 		return
 	}
 	if m == http.MethodGet {
-		b, e := h.Get(key)
-		if e != nil {
-			log.Println(e)
+		bytes, err := h.Get(key)
+		if err != nil {
+			log.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		if len(b) == 0 {
+		if len(bytes) == 0 {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
-		w.Write(b)
+		w.Write(bytes)
 		return
 	}
 	if m == http.MethodDelete {
-		e := h.Del(key)
-		if e != nil {
-			log.Println(e)
+		err := h.Del(key)
+		if err != nil {
+			log.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 		return

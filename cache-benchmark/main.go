@@ -1,7 +1,7 @@
 package main
 
 import (
-	"cache/cache-benchmark/cacheClient"
+	"Distributed-cache/cache-benchmark/cacheClient"
 	"flag"
 	"fmt"
 	"math/rand"

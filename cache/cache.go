@@ -9,14 +9,14 @@ type Cache interface {
 	GetStat() Stat
 }
 
-func New(typ string) Cache {
-	var c Cache
-	if typ == "inmemory" {
-		c = newInMemoryCache()
+func New(mode string) Cache {
+	var cache Cache
+	if mode == "inmemory" {
+		cache = newInMemoryCache()
 	}
-	if c == nil {
-		panic("unknown cache type " + typ)
+	if cache == nil {
+		panic("unknown cache type " + mode)
 	}
-	log.Println(typ, "ready to serve")
-	return c
+	log.Println(mode, "ready to serve")
+	return cache
 }
