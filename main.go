@@ -3,9 +3,11 @@ package main
 import (
 	"Distributed-cache/cache"
 	"Distributed-cache/http"
+	"Distributed-cache/tcp"
 )
 
 func main() {
-	c := cache.New("inmemory")
-	http.New(c).Listen()
+	inmemoryCache := cache.New("inmemory")
+	go tcp.New(inmemoryCache).Listen()
+	http.New(inmemoryCache).Listen()
 }

@@ -10,18 +10,18 @@ type statusHandler struct {
 	*Server
 }
 
-func (h *statusHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (status *statusHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
-	b, e := json.Marshal(h.GetStat())
-	if e != nil {
-		log.Println(e)
+	bytes, err := json.Marshal(status.GetStat())
+	if err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	w.Write(b)
+	w.Write(bytes)
 }
 
 func (s *Server) statusHandler() http.Handler {
