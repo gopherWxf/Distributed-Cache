@@ -1,7 +1,7 @@
 package http
 
 import (
-	"cache/cache"
+	"Distributed-cache/cache"
 	"net/http"
 )
 

@@ -3,19 +3,19 @@ package cache
 import "sync"
 
 type inMemoryCache struct {
-	c     map[string][]byte
-	mutex sync.RWMutex
+	cacheMap map[string][]byte
+	mutex    sync.RWMutex
 	Stat
 }
 
 func (c *inMemoryCache) Set(k string, v []byte) error {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
-	tmp, exist := c.c[k]
+	tmp, exist := c.cacheMap[k]
 	if exist {
 		c.del(k, tmp)
 	}
-	c.c[k] = v
+	c.cacheMap[k] = v
 	c.add(k, v)
 	return nil
 }
@@ -23,15 +23,15 @@ func (c *inMemoryCache) Set(k string, v []byte) error {
 func (c *inMemoryCache) Get(k string) ([]byte, error) {
 	c.mutex.RLock()
 	defer c.mutex.RUnlock()
-	return c.c[k], nil
+	return c.cacheMap[k], nil
 }
 
 func (c *inMemoryCache) Del(k string) error {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
-	v, exist := c.c[k]
+	v, exist := c.cacheMap[k]
 	if exist {
-		delete(c.c, k)
+		delete(c.cacheMap, k)
 		c.del(k, v)
 	}
 	return nil
