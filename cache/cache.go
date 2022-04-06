@@ -14,6 +14,9 @@ func New(mode string) Cache {
 	if mode == "inmemory" {
 		cache = newInMemoryCache()
 	}
+	if mode == "pebble" {
+		cache = newPebbleCache()
+	}
 	if cache == nil {
 		panic("unknown cache type " + mode)
 	}
